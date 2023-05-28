@@ -88,8 +88,8 @@
                 <div
                   class="h-[40%] bg-slate-500 flex flex-col items-center justify-center"
                 >
-                  <p class="text-center font-thin">รางวัลเลขท้าย 2 ตัว</p>
-                  <p class="text-center font-thin text-[11.5px]">
+                  <p class="text-center text-white font-bold">รางวัลเลขท้าย 2 ตัว</p>
+                  <p class="text-center font-bold text-white text-[11.5px]">
                     มีจำนวน 1 รางวัล
                   </p>
                 </div>
@@ -106,7 +106,10 @@
                 <div class="flex justify-center p-4">
                   <div class="w-full flex flex-col justify-center items-center">
                     <input
-                      type="number"
+                      type="text"
+                      pattern="[0-9]*"
+                      inputmode="numeric"
+                      maxlength="3"
                       v-model="inputchecklotto"
                       class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 px-2 py-1"
                       placeholder="โปรดกรอกหมายเลขรางวัล"
@@ -123,7 +126,6 @@
                       <p class="text-white text-center p-3"> ผลรางวัลของคุณคือ : {{ this.yourPrize[0] }} </p>
                     </div>
                   </Transition>
-
                   </div>
                 </div>
               </div>
@@ -172,12 +174,11 @@ export default {
       const FromCookieNumber  = JSON.parse(LottoNumnerByCookie)
       this.threeDigitLotteryNumbers = FromCookieNumber.threeDigitLotteryNumbers;
       this.twoDigitLotteryNumbers = FromCookieNumber.twoDigitLotteryNumbers
-    }else{
-      return null;
-    } 
+    }
+    return;
   },
 
-  getCookie(name) {
+  getCookie(name){
   const value = "; " + document.cookie;
   const parts = value.split("; " + name + "=");
   if (parts.length === 2) {
@@ -188,21 +189,21 @@ export default {
 
   setCookie(name, value){
   const d = new Date();
-  d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); // 1 year
+  d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); 
   const expires = "expires=" + d.toUTCString();
   //เพิ่มข้อมูลลงใน Cookie
   document.cookie = name + "=" + value + ";" + expires + ";path=/";
   },
 
   checkWinnerPrizes() {
-    //Prize
+    //Set Prize
     const inputNumber = String(this.inputchecklotto);
     const prizeNumbers = this.threeDigitLotteryNumbers;
     const twodigitSuffixPrize = this.twoDigitLotteryNumbers[0];
     const sidePrizeUp = String(this.threeDigitLotteryNumbers[0]+1);
     const sidePrizeDown = String(this.threeDigitLotteryNumbers[0]-1);
     
-    //Prize Conditio If True or False
+   //Set Prize
     const isMatchingFirstPrize = inputNumber === String(prizeNumbers[0]);
     const isMatchingSecondPrize = prizeNumbers.slice(1, 4).includes(Number(inputNumber));
     const isMatchingSuffixPrize = inputNumber.endsWith(String(twodigitSuffixPrize));
@@ -211,39 +212,55 @@ export default {
    
     const results = [];
 
-    if (isMatchingFirstPrize && isMatchingSuffixPrize) {
+    if (isMatchingFirstPrize 
+      && isMatchingSuffixPrize) {
       results.push(`${inputNumber} ถูกรางวัลที่ 1 และรางวัลเลขท้าย 2 ตัว`);
     } else if (isMatchingFirstPrize) {
       results.push(`${inputNumber} ถูกรางวัลที่ 1`);
     }
 
-    if (isMatchingSecondPrize && isMatchingSuffixPrize) {
+    if (isMatchingSecondPrize 
+      && isMatchingSuffixPrize) {
       results.push(`${inputNumber} ถูกรางวัลที่ 2 และรางวัลเลขท้าย 2 ตัว`);
     } else if (isMatchingSecondPrize) {
       results.push(`${inputNumber} ถูกรางวัลที่ 2`);
     }
 
-    if(isMatchingSidePrizeUp  && isMatchingSuffixPrize){
+    if(isMatchingSidePrizeUp  
+      && isMatchingSuffixPrize){
       results.push(`${inputNumber} คุณถูกรางวัลข้างเคียงของรางวัลที่หนึ่ง และรางวัลเลขท้ายสองตัว`);
     } else if(isMatchingSidePrizeUp){
       results.push(`${inputNumber} คุณถูกรางวัลข้างเคียง`);
     }
 
-    if(isMatchingSidePrizeDown && isMatchingSuffixPrize){
+    if(isMatchingSidePrizeDown 
+      && isMatchingSuffixPrize){
+
       results.push(`${inputNumber} คุณถูกรางวัลข้างเคียงของรางวัลที่หนึ่ง และรางวัลเลขท้ายสองตัว`);
+
     }else if(isMatchingSidePrizeDown){
+
       results.push(`${inputNumber} คุณถูกรางวัลข้างเคียง`);
+
     }
 
-    if (isMatchingSuffixPrize && !isMatchingFirstPrize && !isMatchingSecondPrize) {
+    if (isMatchingSuffixPrize 
+    && !isMatchingFirstPrize 
+    && !isMatchingSecondPrize) {
+
       results.push(`${inputNumber} ถูกรางวัลเลขท้าย 2 ตัว`);
-    }
-    
 
+    }
     if(this.inputchecklotto == 0 && this.inputchecklotto < 2){
       results.push(`โปรดกรอกรางวัล หรือ กรุณาตรวจสอบความถูกต้อง`);
-    }else if (!isMatchingFirstPrize && !isMatchingSecondPrize && !isMatchingSuffixPrize && !isMatchingSidePrizeUp && !isMatchingSidePrizeDown) {
-      results.push(`เสียใจด้วย คุณไม่ถูกรางวัล`);
+    }else if (!isMatchingFirstPrize 
+      && !isMatchingSecondPrize 
+      && !isMatchingSuffixPrize 
+      && !isMatchingSidePrizeUp 
+      && !isMatchingSidePrizeDown) {
+
+      results.push(`${inputNumber} เสียใจด้วย คุณไม่ถูกรางวัล`);
+
     }
 
     this.yourPrize = results.slice(-2);
