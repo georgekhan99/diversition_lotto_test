@@ -38,7 +38,7 @@
                 </div>
                 <div class="h-[60%] flex flex-col justify-center items-center">
                   <h3 class="text-[35px]">
-                    {{ this.threeDigitLotteryNumbers[0] }}
+                    {{ !this.threeDigitLotteryNumbers[0]? "XXX" : this.threeDigitLotteryNumbers[0]  }}
                   </h3>
                 </div>
               </div>
@@ -47,20 +47,20 @@
                 <div
                   class="h-[40%] bg-slate-500 flex flex-col items-center justify-center"
                 >
-                  <p class="text-center font-thin">รางวัลที่ 2</p>
-                  <p class="text-center font-thin text-[11.5px]">
+                  <p class="text-center font-bold text-white">รางวัลที่ 2</p>
+                  <p class="text-center  text-white font-bold text-[11.5px]">
                     มีจำนวน 3 รางวัล
                   </p>
                 </div>
                 <div class="w-full h-[60%] flex items-center justify-evenly">
                   <h3 class="text-[24px]">
-                    {{ this.threeDigitLotteryNumbers[1] }}
+                    {{ !this.threeDigitLotteryNumbers[1] ? "XXX" : this.threeDigitLotteryNumbers[1]  }}
                   </h3>
                   <h3 class="text-[24px]">
-                    {{ this.threeDigitLotteryNumbers[2] }}
+                    {{ !this.threeDigitLotteryNumbers[2] ? "XXX" : this.threeDigitLotteryNumbers[2] }}
                   </h3>
                   <h3 class="text-[24px]">
-                    {{ this.threeDigitLotteryNumbers[3] }}
+                    {{ !this.threeDigitLotteryNumbers[3] ? "XXX" : this.threeDigitLotteryNumbers[3] }}
                   </h3>
                 </div>
               </div>
@@ -68,19 +68,19 @@
                 <div
                   class="h-[40%] bg-slate-500 flex flex-col items-center justify-center"
                 >
-                  <p class="text-center text-slate-300 text-[11.5px] lg:text-lg font-bold">
+                  <p class="text-center font-bold text-white lg:text-lg">
                     รางวัลข้างเคียงรางวัลที่ 1
                   </p>
-                  <p class="text-center font-bold text-[11.5px]">
+                  <p class="text-center text-white font-bold text-[11.5px]">
                     มีจำนวน 1 รางวัล
                   </p>
                 </div>
                 <div class="w-full h-[60%] flex justify-evenly items-center">
                   <h3 class="text-[24px]">
-                    {{ this.threeDigitLotteryNumbers[0] + 1 }}
+                    {{ !this.threeDigitLotteryNumbers[0] + 1 == 2 ? "XXX" : this.threeDigitLotteryNumbers[0] + 1   }}
                   </h3>
                   <h3 class="text-[24px]">
-                    {{ this.threeDigitLotteryNumbers[0] - 1 }}
+                    {{ !this.threeDigitLotteryNumbers[0] - 1 == 0 ? "XXX" : this.threeDigitLotteryNumbers[0] - 1   }}
                   </h3>
                 </div>
               </div>
@@ -94,7 +94,7 @@
                   </p>
                 </div>
                 <div class="h-[60%] flex-col flex justify-center items-center">
-                  <h3 class="text-[35px]">{{ twoDigitLotteryNumbers[0] }}</h3>
+                  <h3 class="text-[35px]">{{ !twoDigitLotteryNumbers[0] ? "XX" : twoDigitLotteryNumbers[0] }}</h3>
                 </div>
               </div>
             </div>
@@ -202,6 +202,7 @@ export default {
     const sidePrizeUp = String(this.threeDigitLotteryNumbers[0]+1);
     const sidePrizeDown = String(this.threeDigitLotteryNumbers[0]-1);
     
+    //Prize Conditio If True or False
     const isMatchingFirstPrize = inputNumber === String(prizeNumbers[0]);
     const isMatchingSecondPrize = prizeNumbers.slice(1, 4).includes(Number(inputNumber));
     const isMatchingSuffixPrize = inputNumber.endsWith(String(twodigitSuffixPrize));
